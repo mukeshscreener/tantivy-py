@@ -1,7 +1,7 @@
 #![allow(clippy::new_ret_no_self)]
 
 use crate::{document::Document, get_field, query::Query, to_pyerr};
-use pyo3::{exceptions::PyValueError, prelude::*};
+use pyo3::{exceptions::PyValueError, prelude::*, PyObjectProtocol};
 use tantivy as tv;
 use tantivy::collector::{Count, MultiCollector, TopDocs};
 
@@ -45,6 +45,20 @@ pub(crate) struct SearchResult {
     /// How many documents matched the query. Only available if `count` was set
     /// to true during the search.
     count: Option<usize>,
+}
+
+#[pyproto]
+impl PyObjectProtocol for SearchResult {
+    fn __repr__(&self) -> PyResult<String> {
+        if let Some(count) = self.count {
+            Ok(format!(
+                "SearchResult(hits: {:?}, count: {})",
+                self.hits, count
+            ))
+        } else {
+            Ok(format!("SearchResult(hits: {:?})", self.hits))
+        }
+    }
 }
 
 #[pymethods]
