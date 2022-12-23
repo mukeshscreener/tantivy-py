@@ -18,7 +18,7 @@ pluggy==1.0.0
     # via pytest
 pytest==7.2.0
     # via -r requirements.in
-tantivy @ git+https://github.com/mukeshscreener/tantivy-py.git@34c473d
+tantivy @ git+https://github.com/mukeshscreener/tantivy-py.git
     # via -r requirements.in
 tomli==2.0.1
     # via
